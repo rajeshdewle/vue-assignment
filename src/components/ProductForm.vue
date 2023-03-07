@@ -21,7 +21,7 @@
           id="product_sku"
           class="form-control"
           placeholder="Enter unique product SKU"
-          :rules="isRequired"
+          :rules="isValidSKU"
         />
         <ErrorMessage class="form-text text-danger" name="product_sku" />
       </div>
@@ -48,6 +48,7 @@
 
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
+import { mapActions } from "vuex";
 
 export default {
   name: "ProductForm",
@@ -62,6 +63,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['getProducts']),
     onSubmit() {
       console.log('Working');
     },
@@ -71,6 +73,19 @@ export default {
     isRequired(value) {
       if (!value) {
         return 'This field is required';
+      }
+      return true;
+    },
+    async isValidSKU(value) {
+      if (!value) {
+        return 'This field is required';
+      }
+      if (value) {
+        await this.getProducts({ search: `product_sku_like=${value}`, limit: 1 });
+        const product = this.$store.state.products.map((p) => p.product_sku == value);
+        if (product[0]) {
+          return 'SKU must be unique'
+        } 
       }
       return true;
     },
