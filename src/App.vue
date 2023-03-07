@@ -1,6 +1,8 @@
 <template>
   <Header />
-  <HomePage />
+  <div class="container">
+    <HomePage />
+  </div>
 </template>
 
 <script>

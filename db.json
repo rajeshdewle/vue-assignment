@@ -1,0 +1,17 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "product_name": "Casual Product Entry",
+      "product_sku": "JKLDF",
+      "product_desc": "HHH",
+      "product_image": ["image1", "image2"],
+      "items": [{
+        "size": "1",
+        "part_number" :"102",
+        "color": "blue",
+        "price": "800"
+      }]
+    }
+  ]
+}
