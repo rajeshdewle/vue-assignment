@@ -5,7 +5,16 @@
       Add Product
     </router-link>
   </div>
-  <div>
+  <div
+    v-if="loading"
+    style="height: 240px;"
+    class="d-flex justify-content-center mb-3 align-items-center"
+  >
+    <div class="spinner-border text-primary">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div v-else>
     <table class="table">
       <thead>
         <tr>
@@ -37,7 +46,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(['products']),
+    ...mapState(['products', 'loading']),
   },
   created() {
     this.getProducts();

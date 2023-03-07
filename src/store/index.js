@@ -6,6 +6,7 @@ const store = createStore({
     return {
       products: [],
       pagination: null,
+      loading: false,
     };
   },
   mutations: {
@@ -15,9 +16,13 @@ const store = createStore({
     setPagination (state, data) {
       state.pagination = data;
     },
+    setLoading(state, data) {
+      state.loading = data;
+    },
   },
   actions: {
     getProducts: async ({ commit }, query = { page: 1, search: null, limit: 5 }) => {
+      commit('setLoading', true);
       const page = query.page ? query.page : 1;
       const limit = query.limit ? query.limit : 5;
       let url = `/products?_page=${page}&_limit=${limit}`;
@@ -28,6 +33,7 @@ const store = createStore({
           commit('setPagination', res.headers.link);
         })
         .catch((e) => console.error(e));
+      commit('setLoading', false);
     },
   },
   getters: {
