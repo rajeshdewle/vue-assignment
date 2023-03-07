@@ -20,14 +20,19 @@
         </tr>
       </tbody>
     </table>
+    <SimplePagination />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import SimplePagination from '@/components/SimplePagination.vue';
 
 export default {
   name: "ProductList",
+  components: {
+    SimplePagination,
+  },
   data() {
     return {};
   },
