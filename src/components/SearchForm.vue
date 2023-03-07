@@ -6,27 +6,28 @@
       placeholder="Type to search..."
       v-model="searchQuery"
       @keyup="search"
-    >
+    />
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
+  name: "SearchForm",
   data() {
     return {
-      searchQuery: '',
+      searchQuery: "",
     };
   },
   mounted() {
     this.searchQuery = this.$route.query.search;
   },
   methods: {
-    ...mapActions(['getProducts']),
+    ...mapActions(["getProducts"]),
     search() {
-      this.$router.push({ query: { search: this.searchQuery} });
+      this.$router.push({ query: { search: this.searchQuery } });
       this.getProducts({ search: `product_name_like=${this.searchQuery}` });
-    }
-  }
+    },
+  },
 };
 </script>
