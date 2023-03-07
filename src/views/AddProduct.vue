@@ -6,12 +6,18 @@
         Back
       </router-link>
     </div>
+    <ProductFrom></ProductFrom>
   </div>
 </template>
 
 <script>
+import ProductFrom from "@/components/ProductForm.vue";
+
 export default {
   name: "AddProduct",
+  components: {
+    ProductFrom,
+  },
   data() {
     return {};
   },
