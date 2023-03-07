@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="onSubmit">
+  <Form @submit="onSubmit" ref="productform">
     <div class="row mb-3">
       <div class="col">
         <label for="product_name" class="form-label">Product Name</label>
@@ -40,7 +40,7 @@
       <ErrorMessage class="form-text text-danger" name="product_desc" />
     </div>
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-light me-3">Reset</button>
+      <button type="button" class="btn btn-light me-3" @click="reset">Reset</button>
       <button class="btn btn-primary">Submit</button>
     </div>
   </Form>
@@ -64,6 +64,9 @@ export default {
   methods: {
     onSubmit() {
       console.log('Working');
+    },
+    reset() {
+      this.$refs.productform.resetForm();
     },
     isRequired(value) {
       if (!value) {
