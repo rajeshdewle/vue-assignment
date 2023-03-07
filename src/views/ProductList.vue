@@ -5,6 +5,7 @@
       Add Product
     </router-link>
   </div>
+  <SearchForm />
   <div
     v-if="loading"
     style="height: 240px;"
@@ -35,11 +36,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import SearchForm from '@/components/SearchForm.vue';
 import SimplePagination from '@/components/SimplePagination.vue';
 
 export default {
   name: "ProductList",
   components: {
+    SearchForm,
     SimplePagination,
   },
   data() {

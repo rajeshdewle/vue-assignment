@@ -25,7 +25,11 @@ const store = createStore({
       commit('setLoading', true);
       const page = query.page ? query.page : 1;
       const limit = query.limit ? query.limit : 5;
+      const search = query.search ? query.search : null;
       let url = `/products?_page=${page}&_limit=${limit}`;
+      if (search) {
+        url = url + `&${search}`;
+      }
       await axios
         .get(url)
         .then((res) => {
