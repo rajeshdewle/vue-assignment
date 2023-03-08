@@ -30,14 +30,20 @@ export default {
   },
   computed: {
     ...mapState(['product']),
+    alert() {
+      return this.$store.state.alert.show;
+    }
   },
   mounted() {
     this.getProduct(this.$route.params.id);
   },
   methods: {
     ...mapActions(['getProduct', 'updateProducts']),
-    update(payload) {
-      this.updateProducts(payload);
+    async update(payload) {
+      await this.updateProducts(payload);
+      if (this.alert) {
+        this.$router.push({ name: 'products'})
+      }
     },
   },
 };

@@ -137,7 +137,7 @@
     </div>
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-light me-3" @click="reset">Reset</button>
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" :disabled="loading">
         {{ existingData ? "Update" : "Submit" }}
       </button>
     </div>
@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import DropFile from "@/components/DropFile.vue";
 import IconPlus from "@/components/icons/IconPlus.vue";
@@ -180,8 +180,12 @@ export default {
     };
   },
   computed: {
+    ...mapState(['loading']),
     files() {
-      return this.$refs.fileinput.files;
+      if (this.$refs.fileinput) {
+        return this.$refs.fileinput.files;
+      }
+      return null;
     },
   },
   mounted() {
@@ -195,7 +199,12 @@ export default {
   methods: {
     ...mapActions(['getProducts']),
     onSubmit() {
-      const images = this.files.map((file) => file.name);
+      let images = [];
+      if (this.existingData) {
+        images = this.formData.product_image;
+      } else {
+        images = this.files.map((file) => file.name);
+      }
       const payload = {
         ...this.formData,
         items: this.items,
@@ -212,7 +221,9 @@ export default {
     },
     reset() {
       this.$refs.productform.resetForm();
-      this.$refs.fileinput.reset();
+      if (!this.existingData) {
+        this.$refs.fileinput.reset();
+      }
     },
     isRequired(value) {
       if (!value) {
