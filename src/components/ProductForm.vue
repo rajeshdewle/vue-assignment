@@ -44,6 +44,93 @@
       <DropFile ref="fileinput"></DropFile>
       <ErrorMessage class="form-text text-danger" name="fileinput" />
     </div>
+    <div class="mb-3">
+      Items:
+      <table class="table table-borderless mx-n1" style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col">Size</th>
+            <th scope="col">Color</th>
+            <th scope="col">Number</th>
+            <th scope="col">Price</th>
+            <th scope="col" class="align-middle text-center">
+              <button
+                type="button"
+                style="width: 26px; height: 26px"
+                class="d-flex align-items-center justify-content-center btn btn-outline-primary p-0 rounded-circle"
+                @click="addItem"
+              >
+                <IconPlus />
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, i) in items" :key="i">
+            <td class="w-25">
+              <Field
+                name="size"
+                as="select"
+                class="form-select"
+                v-model="item.size"
+                aria-label="Select size"
+                :rules="isRequired"
+              >
+                <option value="1">S</option>
+                <option value="2">M</option>
+                <option value="3">L</option>
+              </Field>
+              <ErrorMessage class="form-text text-danger" name="size"></ErrorMessage>
+            </td>
+            <td class="w-25">
+              <Field
+                as="select"
+                name="color"
+                class="form-select"
+                v-model="item.color"
+                aria-label="Select size"
+                :rules="isRequired"
+              >
+                <option value="red">Red</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+              </Field>
+              <ErrorMessage class="form-text text-danger" name="color"></ErrorMessage>
+            </td>
+            <td class="w-25">
+              <Field
+                name="part_number"
+                type="number"
+                class="form-control"
+                :rules="isRequired"
+              />
+              <ErrorMessage class="form-text text-danger" name="part_number"></ErrorMessage>
+            </td>
+            <td class="w-25">
+              <Field
+                name="price"
+                type="number"
+                class="form-control"
+                :rules="isRequired"
+              />
+              <ErrorMessage class="form-text text-danger" name="price"></ErrorMessage>
+            </td>
+            <td class="align-middle">
+              <button
+                style="width: 26px; height: 26px"
+                type="button"
+                class="d-flex align-items-center justify-content-center btn btn-outline-danger p-0 rounded-circle"
+                @click="removeItem(i)"
+                :disabled="items.length === 1"
+              >
+                <IconTrash />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-light me-3" @click="reset">Reset</button>
       <button class="btn btn-primary">Submit</button>
@@ -55,6 +142,8 @@
 import { mapActions } from "vuex";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import DropFile from "@/components/DropFile.vue";
+import IconPlus from "@/components/icons/IconPlus.vue";
+import IconTrash from "@/components/icons/IconTrash.vue";
 
 export default {
   name: "ProductForm",
@@ -62,17 +151,35 @@ export default {
     Form,
     Field,
     DropFile,
+    IconPlus,
+    IconTrash,
     ErrorMessage,
   },
   data() {
     return {
       formData: {},
+      items: [],
+      newitem: {
+        size: "",
+        color: "",
+        price: "",
+        part_number: "",
+      },
     };
+  },
+  mounted() {
+    this.addItem();
   },
   methods: {
     ...mapActions(['getProducts']),
     onSubmit() {
       console.log('Working');
+    },
+    addItem() {
+      this.items.push({ ...this.newitem });
+    },
+    removeItem(i) {
+      this.items.splice(i, 1);
     },
     reset() {
       this.$refs.productform.resetForm();
