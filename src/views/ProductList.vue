@@ -16,38 +16,43 @@
     </div>
   </div>
   <div v-else>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">SKU</th>
-          <th scope="col">Product</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="product in products" :key="product.id">
-          <td scope="row">{{ product.product_sku }}</td>
-          <td scope="row">{{ product.product_name }}</td>
-          <td scope="row">
-            <router-link
-              class="btn btn-link p-0"
-              :to="{ name: 'editProduct', params: { id: product.id }}"
-            >
-              <IconEdit class="text-success"/>
-            </router-link>
-            <button
-              title="Delete"
-              type="button"
-              class="btn btn-link p-0 ms-4"
-              @click="deleteProduct(product.id)"
-            >
-              <IconTrash class="text-danger"/>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <SimplePagination />
+    <div v-if="products.length">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">SKU</th>
+            <th scope="col">Product</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.id">
+            <td scope="row">{{ product.product_sku }}</td>
+            <td scope="row">{{ product.product_name }}</td>
+            <td scope="row">
+              <router-link
+                class="btn btn-link p-0"
+                :to="{ name: 'editProduct', params: { id: product.id }}"
+              >
+                <IconEdit class="text-success"/>
+              </router-link>
+              <button
+                title="Delete"
+                type="button"
+                class="btn btn-link p-0 ms-4"
+                @click="deleteProduct(product.id)"
+              >
+                <IconTrash class="text-danger"/>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <SimplePagination />
+    </div>
+    <div class="display-5 text-center py-5" v-else>
+      No Data Found
+    </div>
   </div>
 </template>
 
