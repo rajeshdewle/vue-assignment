@@ -200,6 +200,7 @@ export default {
     },
     reset() {
       this.$refs.productform.resetForm();
+      this.$refs.fileinput.reset();
     },
     isRequired(value) {
       if (!value) {

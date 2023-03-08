@@ -98,6 +98,9 @@ export default {
       this.onChange();
       this.isDragging = false;
     },
+    reset() {
+      this.files = [];
+    },
     isRequired() {
       if (!this.files.length > 0) {
         return `This field is required`;
