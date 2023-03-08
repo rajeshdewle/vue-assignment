@@ -1,10 +1,10 @@
 <template>
   <div
     @drop="drop"
-    @dragleave="dragleave"
-    class="border rounded-2 position-relative p-5"
     @dragover="dragover"
+    @dragleave="dragleave"
     :class="isDragging ? 'border-primary' : ''"
+    class="border rounded-2 position-relative p-5"
   >
   <Field @change="onChange" name="fileinput" v-slot="{ handleChange }" :rules="isRequired">
     <input
