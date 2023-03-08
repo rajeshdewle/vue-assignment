@@ -7,6 +7,11 @@ const store = createStore({
       products: [],
       pagination: null,
       loading: false,
+      alert: {
+        show: false,
+        msg: '',
+        type: 'success',
+      },
     };
   },
   mutations: {
@@ -19,9 +24,20 @@ const store = createStore({
     setLoading(state, data) {
       state.loading = data;
     },
+    setAlert(state, data) {
+      if(data.show === false) {
+        state.alert = {
+          show: false,
+          msg: '',
+          type: 'success',
+        };
+      } else {
+        state.alert = data;
+      }
+    },
   },
   actions: {
-    getProducts: async ({ commit }, query = { page: 1, search: null, limit: 5 }) => {
+    async getProducts({ commit }, query = { page: 1, search: null, limit: 5 }) {
       commit('setLoading', true);
       const page = query.page ? query.page : 1;
       const limit = query.limit ? query.limit : 5;
@@ -41,7 +57,7 @@ const store = createStore({
     },
   },
   getters: {
-    pagination( state ) {
+    pagination: ( state ) => {
       if (state.pagination) {
         return Object.fromEntries(state.pagination.split( ", " ).map( header => header.split( "; " ) ).map( header => [ header[1].replace( /"/g, "" ).replace( "rel=", "" ), header[0].slice( 1, -1 ) ] ) );
       }
