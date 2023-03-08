@@ -9,6 +9,7 @@
           name="product_name"
           :rules="isRequired"
           class="form-control"
+          v-model="formData.product_name"
           placeholder="Enter product name"
         />
         <ErrorMessage class="form-text text-danger" name="product_name" />
@@ -21,6 +22,7 @@
           name="product_sku"
           :rules="isValidSKU"
           class="form-control"
+          v-model="formData.product_sku"
           placeholder="Enter unique product SKU"
         />
         <ErrorMessage class="form-text text-danger" name="product_sku" />
@@ -34,6 +36,7 @@
           v-bind="field"
           id="product_desc"
           class="form-control"
+          v-model="formData.product_desc"
           placeholder="Enter product description"
         ></textarea>
       </Field>
@@ -69,10 +72,10 @@
           <tr v-for="(item, i) in items" :key="i">
             <td class="w-25">
               <Field
-                name="size"
+                :name="`size-${i}`"
                 as="select"
                 class="form-select"
-                v-model="item.size"
+                v-model="items[i].size"
                 aria-label="Select size"
                 :rules="isRequired"
               >
@@ -80,12 +83,12 @@
                 <option value="2">M</option>
                 <option value="3">L</option>
               </Field>
-              <ErrorMessage class="form-text text-danger" name="size"></ErrorMessage>
+              <ErrorMessage class="form-text text-danger" :name="`size-${i}`" />
             </td>
             <td class="w-25">
               <Field
                 as="select"
-                name="color"
+                :name="`color-${i}`"
                 class="form-select"
                 v-model="item.color"
                 aria-label="Select size"
@@ -96,25 +99,27 @@
                 <option value="green">Green</option>
                 <option value="blue">Blue</option>
               </Field>
-              <ErrorMessage class="form-text text-danger" name="color"></ErrorMessage>
+              <ErrorMessage class="form-text text-danger" :name="`color-${i}`" />
             </td>
             <td class="w-25">
               <Field
-                name="part_number"
+                :name="`part_number-${i}`"
                 type="number"
+                v-model="item.part_number"
                 class="form-control"
                 :rules="isRequired"
               />
-              <ErrorMessage class="form-text text-danger" name="part_number"></ErrorMessage>
+              <ErrorMessage class="form-text text-danger" :name="`part_number-${i}`" />
             </td>
             <td class="w-25">
               <Field
-                name="price"
+                :name="`price-${i}`"
                 type="number"
+                v-model="item.price"
                 class="form-control"
                 :rules="isRequired"
               />
-              <ErrorMessage class="form-text text-danger" name="price"></ErrorMessage>
+              <ErrorMessage class="form-text text-danger" :name="`price-${i}`" />
             </td>
             <td class="align-middle">
               <button
@@ -167,16 +172,28 @@ export default {
       },
     };
   },
+  computed: {
+    files() {
+      return this.$refs.fileinput.files;
+    },
+  },
   mounted() {
     this.addItem();
   },
   methods: {
     ...mapActions(['getProducts']),
     onSubmit() {
-      console.log('Working');
+      const images = this.files.map((file) => file.name);
+      const payload = {
+        ...this.formData,
+        items: this.items,
+        product_image: images,
+      };
+      console.log('Working', payload);
+      this.reset();
     },
     addItem() {
-      this.items.push({ ...this.newitem });
+      this.items.push({...this.newitem});
     },
     removeItem(i) {
       this.items.splice(i, 1);
