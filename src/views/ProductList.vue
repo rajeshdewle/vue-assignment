@@ -21,12 +21,30 @@
         <tr>
           <th scope="col">SKU</th>
           <th scope="col">Product</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="product in products" :key="product.id">
           <td scope="row">{{ product.product_sku }}</td>
           <td scope="row">{{ product.product_name }}</td>
+          <td scope="row">
+            <button
+              title="Edit"
+              type="button"
+              class="btn btn-link p-0"
+            >
+              <IconEdit class="text-success"/>
+            </button>
+            <button
+              title="Delete"
+              type="button"
+              class="btn btn-link p-0 ms-4"
+              @click="deleteProduct(product.id)"
+            >
+              <IconTrash class="text-danger"/>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -37,11 +55,15 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import SearchForm from '@/components/SearchForm.vue';
+import IconTrash from '@/components/icons/IconTrash.vue';
+import IconEdit from '@/components/icons/IconEdit.vue';
 import SimplePagination from '@/components/SimplePagination.vue';
 
 export default {
   name: "ProductList",
   components: {
+    IconTrash,
+    IconEdit,
     SearchForm,
     SimplePagination,
   },
@@ -55,7 +77,7 @@ export default {
     this.getProducts();
   },
   methods: {
-    ...mapActions(['getProducts'])
+    ...mapActions(['getProducts', 'deleteProduct'])
   },
 };
 </script>

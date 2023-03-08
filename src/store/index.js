@@ -80,6 +80,34 @@ const store = createStore({
         });
       commit('setLoading', false);
     },
+    async deleteProduct({ commit, dispatch }, id) {
+      commit('setLoading', true);
+      await axios
+        .delete(`/products/${id}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            const alert = {
+              show: true,
+              msg: 'Product deleted successfully!',
+              type: 'success',
+            };
+            commit('setAlert', alert);
+            dispatch('getProducts');
+            window.scrollTo(0,0);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          const alert = {
+            show: true,
+            msg: 'Erorr to delete product',
+            type: 'danger',
+          };
+          commit('setAlert', alert);
+        });
+      commit('setLoading', false);
+    },
   },
   getters: {
     pagination: ( state ) => {
