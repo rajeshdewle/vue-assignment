@@ -138,6 +138,9 @@
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-light me-3" @click="reset">Reset</button>
       <button class="btn btn-primary" :disabled="loading">
+        <div class="spinner-border text-light" style="height: 16px; width: 16px;" v-if="loading">
+          <span class="visually-hidden">Loading...</span>
+        </div>
         {{ existingData ? "Update" : "Submit" }}
       </button>
     </div>
