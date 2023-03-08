@@ -55,6 +55,31 @@ const store = createStore({
         .catch((e) => console.error(e));
       commit('setLoading', false);
     },
+    async saveProducts({ commit }, payload) {
+      commit('setLoading', true);
+      await axios
+        .post('/products', payload)
+        .then((res) => {
+          if (res.data.id) {
+            const alert = {
+              show: true,
+              msg: 'Product added successfully!',
+              type: 'success',
+            };
+            commit('setAlert', alert);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          const alert = {
+            show: true,
+            msg: 'Erorr to add product',
+            type: 'danger',
+          };
+          commit('setAlert', alert);
+        });
+      commit('setLoading', false);
+    },
   },
   getters: {
     pagination: ( state ) => {

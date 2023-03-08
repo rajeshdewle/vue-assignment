@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div
-      class="alert alert-success d-flex justify-content-between"
+      :class="`alert alert-${alert.type} d-flex justify-content-between`"
       role="alert"
       v-if="showAlert"
     >
-      Product
+      {{ alert.msg }}
       <button
         type="button" class="btn-close"
         aria-label="Close"

@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="onSubmit" ref="productform">
+  <Form @submit="onSubmit" ref="productform" class="mb-5">
     <div class="row mb-3">
       <div class="col">
         <label for="product_name" class="form-label">Product Name</label>
@@ -189,7 +189,7 @@ export default {
         items: this.items,
         product_image: images,
       };
-      console.log('Working', payload);
+      this.$emit('onSubmit', payload);
       this.reset();
     },
     addItem() {

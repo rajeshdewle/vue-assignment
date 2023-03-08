@@ -6,12 +6,13 @@
         Back
       </router-link>
     </div>
-    <ProductFrom></ProductFrom>
+    <ProductFrom @on-submit="addNewProduct"></ProductFrom>
   </div>
 </template>
 
 <script>
 import ProductFrom from "@/components/ProductForm.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "AddProduct",
@@ -20,6 +21,12 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    ...mapActions(['saveProducts']),
+    addNewProduct(payload) {
+      this.saveProducts(payload);
+    },
   },
 };
 </script>
