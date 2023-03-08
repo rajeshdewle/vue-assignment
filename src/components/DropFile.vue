@@ -1,20 +1,20 @@
 <template>
   <div
-    class="border rounded-2 position-relative p-5"
-    :class="isDragging ? 'border-primary' : ''"
-    @dragover="dragover"
-    @dragleave="dragleave"
     @drop="drop"
+    @dragleave="dragleave"
+    class="border rounded-2 position-relative p-5"
+    @dragover="dragover"
+    :class="isDragging ? 'border-primary' : ''"
   >
   <Field @change="onChange" name="fileinput" v-slot="{ handleChange }" :rules="isRequired">
     <input
       multiple
       ref="file"
       type="file"
-      name="fileinput"
       id="images"
-      @change="handleChange(onChange());"
+      name="fileinput"
       accept=".jpg,.jpeg,.png"
+      @change="handleChange(onChange());"
       class="hidden-input position-absolute top-0 bottom-0 start-0 end-0 overflow-hidden opacity-0"
     />
     </Field>
@@ -36,10 +36,10 @@
         </div>
         <div>
           <button
-            style="width: 26px; height: 26px"
             type="button"
-            class="d-flex align-items-center justify-content-center btn btn-outline-danger p-0 rounded-circle"
+            style="width: 26px; height: 26px"
             @click="remove(files.indexOf(file))"
+            class="d-flex align-items-center justify-content-center btn btn-outline-danger p-0 rounded-circle"
           >
             <IconTrash />
           </button>
@@ -50,19 +50,18 @@
 </template>
 
 <script>
-import IconTrash from "./icons/IconTrash.vue";
 import { Field } from 'vee-validate';
+import IconTrash from "./icons/IconTrash.vue";
 
 export default {
   components: {
-    IconTrash,
     Field,
+    IconTrash,
   },
   data() {
     return {
-      isDragging: false,
       files: [],
-      error: null,
+      isDragging: false,
     };
   },
   methods: {
