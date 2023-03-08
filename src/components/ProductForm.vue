@@ -7,21 +7,21 @@
           type="text"
           id="product_name"
           name="product_name"
+          :rules="isRequired"
           class="form-control"
           placeholder="Enter product name"
-          :rules="isRequired"
         />
         <ErrorMessage class="form-text text-danger" name="product_name" />
       </div>
       <div class="col">
         <label for="product_sku" class="form-label">SKU</label>
         <Field
-          name="product_sku"
           type="text"
           id="product_sku"
+          name="product_sku"
+          :rules="isValidSKU"
           class="form-control"
           placeholder="Enter unique product SKU"
-          :rules="isValidSKU"
         />
         <ErrorMessage class="form-text text-danger" name="product_sku" />
       </div>
@@ -39,6 +39,11 @@
       </Field>
       <ErrorMessage class="form-text text-danger" name="product_desc" />
     </div>
+    <div class="mb-3">
+      <label for="images" class="form-label">Product Images</label>
+      <DropFile ref="fileinput"></DropFile>
+      <ErrorMessage class="form-text text-danger" name="fileinput" />
+    </div>
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-light me-3" @click="reset">Reset</button>
       <button class="btn btn-primary">Submit</button>
@@ -47,14 +52,16 @@
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from "vee-validate";
 import { mapActions } from "vuex";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import DropFile from "@/components/DropFile.vue";
 
 export default {
   name: "ProductForm",
   components: {
     Form,
     Field,
+    DropFile,
     ErrorMessage,
   },
   data() {
