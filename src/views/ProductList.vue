@@ -29,13 +29,12 @@
           <td scope="row">{{ product.product_sku }}</td>
           <td scope="row">{{ product.product_name }}</td>
           <td scope="row">
-            <button
-              title="Edit"
-              type="button"
+            <router-link
               class="btn btn-link p-0"
+              :to="{ name: 'editProduct', params: { id: product.id }}"
             >
               <IconEdit class="text-success"/>
-            </button>
+            </router-link>
             <button
               title="Delete"
               type="button"

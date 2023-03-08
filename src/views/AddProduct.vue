@@ -6,7 +6,7 @@
         Back
       </router-link>
     </div>
-    <ProductFrom @on-submit="addNewProduct"></ProductFrom>
+    <ProductFrom @on-submit="save"></ProductFrom>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     ...mapActions(['saveProducts']),
-    async addNewProduct(payload) {
+    async save(payload) {
       await this.saveProducts(payload);
       if (this.alert) {
         this.$router.push({ name: 'products'})

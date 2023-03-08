@@ -5,6 +5,7 @@ const store = createStore({
   state() {
     return {
       products: [],
+      setProduct: null,
       pagination: null,
       loading: false,
       alert: {
@@ -17,6 +18,9 @@ const store = createStore({
   mutations: {
     setProducts (state, data) {
       state.products = data;
+    },
+    setProduct (state, data) {
+      state.product = data;
     },
     setPagination (state, data) {
       state.pagination = data;
@@ -55,6 +59,17 @@ const store = createStore({
         .catch((e) => console.error(e));
       commit('setLoading', false);
     },
+    async getProduct({ commit }, id) {
+      commit('setLoading', true);
+      let url = `/products/${id}`;
+      await axios
+        .get(url)
+        .then((res) => {
+          commit("setProduct", res.data);
+        })
+        .catch((e) => console.error(e));
+      commit('setLoading', false);
+    },
     async saveProducts({ commit }, payload) {
       commit('setLoading', true);
       await axios
@@ -74,6 +89,31 @@ const store = createStore({
           const alert = {
             show: true,
             msg: 'Erorr to add product',
+            type: 'danger',
+          };
+          commit('setAlert', alert);
+        });
+      commit('setLoading', false);
+    },
+    async updateProducts({ commit }, payload) {
+      commit('setLoading', true);
+      await axios
+        .put(`/products/${payload.id}`, payload)
+        .then((res) => {
+          if (res.data.id) {
+            const alert = {
+              show: true,
+              msg: 'Product updated successfully!',
+              type: 'success',
+            };
+            commit('setAlert', alert);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          const alert = {
+            show: true,
+            msg: 'Erorr to update product',
             type: 'danger',
           };
           commit('setAlert', alert);

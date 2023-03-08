@@ -20,7 +20,7 @@
           type="text"
           id="product_sku"
           name="product_sku"
-          :rules="isValidSKU"
+          :rules="existingData ? isRequired : isValidSKU"
           class="form-control"
           v-model="formData.product_sku"
           placeholder="Enter unique product SKU"
@@ -30,19 +30,18 @@
     </div>
     <div class="mb-3">
       <label for="product_desc" class="form-label">Desctiption</label>
-      <Field v-slot="{ field }" name="product_desc" :rules="isRequired">
+      <Field v-slot="{ field }" v-model="formData.product_desc" name="product_desc" :rules="isRequired">
         <textarea
           rows="3"
           v-bind="field"
           id="product_desc"
           class="form-control"
-          v-model="formData.product_desc"
           placeholder="Enter product description"
         ></textarea>
       </Field>
       <ErrorMessage class="form-text text-danger" name="product_desc" />
     </div>
-    <div class="mb-3">
+    <div class="mb-3" v-if="!existingData">
       <label for="images" class="form-label">Product Images</label>
       <DropFile ref="fileinput"></DropFile>
       <ErrorMessage class="form-text text-danger" name="fileinput" />
@@ -138,7 +137,9 @@
     </div>
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-light me-3" @click="reset">Reset</button>
-      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary">
+        {{ existingData ? "Update" : "Submit" }}
+      </button>
     </div>
   </Form>
 </template>
@@ -152,6 +153,12 @@ import IconTrash from "@/components/icons/IconTrash.vue";
 
 export default {
   name: "ProductForm",
+  props: {
+    existingData: {
+      type: Object,
+      default: null,
+    }
+  },
   components: {
     Form,
     Field,
@@ -178,7 +185,12 @@ export default {
     },
   },
   mounted() {
-    this.addItem();
+    if (this.existingData) {
+      this.formData = this.existingData;
+      this.items = this.existingData.items;
+    } else {
+      this.addItem();
+    }
   },
   methods: {
     ...mapActions(['getProducts']),
