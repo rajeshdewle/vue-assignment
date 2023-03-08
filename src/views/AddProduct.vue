@@ -22,10 +22,18 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    alert() {
+      return this.$store.state.alert.show;
+    }
+  },
   methods: {
     ...mapActions(['saveProducts']),
-    addNewProduct(payload) {
-      this.saveProducts(payload);
+    async addNewProduct(payload) {
+      await this.saveProducts(payload);
+      if (this.alert) {
+        this.$router.push({ name: 'products'})
+      }
     },
   },
 };
